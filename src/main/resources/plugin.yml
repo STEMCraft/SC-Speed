@@ -1,0 +1,5 @@
+name: SC-Speed
+version: '1.0'
+main: com.stemcraft.Speed
+api-version: '1.21'
+depend: [STEMCraftLib]
