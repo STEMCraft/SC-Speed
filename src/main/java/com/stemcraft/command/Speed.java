@@ -13,12 +13,12 @@ public class Speed extends STEMCraftCommand {
         String usage = "Usage: /speed (walk|fly) [speed] (player)";
 
         if (!sender.hasPermission("stemcraft.speed")) {
-            message(sender, "You do not have permission to use this command");
+            error(sender, "You do not have permission to use this command");
             return;
         }
 
         if (args.isEmpty()) {
-            message(sender, usage);
+            error(sender, usage);
             return;
         }
 
@@ -49,7 +49,7 @@ public class Speed extends STEMCraftCommand {
                 speed = Float.parseFloat(args.get(argNum));
                 argNum++;
             } catch (NumberFormatException e) {
-                message(sender, usage);
+                error(sender, usage);
                 return;
             }
         }
@@ -57,11 +57,11 @@ public class Speed extends STEMCraftCommand {
         if (args.size() > argNum) {
             target = Bukkit.getPlayerExact(args.get(argNum));
             if (target == null) {
-                message(sender, "The player {player} was not found or online", "player", args.get(argNum));
+                error(sender, "The player {player} was not found or online", "player", args.get(argNum));
                 return;
             }
         } else if (!(sender instanceof Player)) {
-            message(sender, "A player name is required when using this command from the console");
+            error(sender, "A player name is required when using this command from the console");
             return;
         } else {
             target = (Player) sender;
@@ -69,7 +69,7 @@ public class Speed extends STEMCraftCommand {
 
         if (reset) {
             com.stemcraft.Speed.resetPlayerSpeed(target);
-            message(sender, "The speed for player {player} has been reset", "player", target.getName());
+            success(sender, "The speed for player {player} has been reset", "player", target.getName());
         } else {
             if (speed < 0.1f) {
                 speed = 0.1f;
@@ -82,7 +82,7 @@ public class Speed extends STEMCraftCommand {
             }
 
             com.stemcraft.Speed.setPlayerSpeed(target, speed, flying);
-            message(sender, "The {type} speed for player {player} has been changed to {speed}", "type", (flying ? "flying" : "walking"), "player", target.getName(), "speed", String.valueOf(speed));
+            success(sender, "The {type} speed for player {player} has been changed to {speed}", "type", (flying ? "flying" : "walking"), "player", target.getName(), "speed", String.valueOf(speed));
         }
     }
 }
