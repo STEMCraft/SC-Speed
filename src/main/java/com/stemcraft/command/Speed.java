@@ -68,7 +68,7 @@ public class Speed extends STEMCraftCommand {
         }
 
         if (reset) {
-            plugin.resetPlayerSpeed(target);
+            com.stemcraft.Speed.resetPlayerSpeed(target);
             message(sender, "The speed for player {player} has been reset", "player", target.getName());
         } else {
             if (speed < 0.1f) {
@@ -81,7 +81,7 @@ public class Speed extends STEMCraftCommand {
                 flying = target.isFlying();
             }
 
-            plugin.setPlayerSpeed(target, speed, flying);
+            com.stemcraft.Speed.setPlayerSpeed(target, speed, flying);
             message(sender, "The {type} speed for player {player} has been changed to {speed}", "type", (flying ? "flying" : "walking"), "player", target.getName(), "speed", String.valueOf(speed));
         }
     }
