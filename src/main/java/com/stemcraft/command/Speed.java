@@ -1,6 +1,6 @@
-package com.stemcraft.commands;
+package com.stemcraft.command;
 
-import com.stemcraft.common.STEMCraftCommand;
+import com.stemcraft.STEMCraftCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,16 +8,6 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class Speed extends STEMCraftCommand {
-    com.stemcraft.Speed plugin;
-
-    public Speed(com.stemcraft.Speed instance) {
-        plugin = instance;
-
-        tabComplete("{speedtype}", "{speed}", "{player}");
-        tabComplete("{speed}", "{player}");
-        tabComplete("reset", "{player}");
-    }
-
     @Override
     public void execute(CommandSender sender, String command, List<String> args) {
         String usage = "Usage: /speed (walk|fly) [speed] (player)";

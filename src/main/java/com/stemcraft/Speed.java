@@ -1,28 +1,32 @@
 package com.stemcraft;
 
-import com.stemcraft.common.STEMCraftPlugin;
+import com.stemcraft.listener.PlayerWorldChangeListener;
+import com.stemcraft.util.SCTabCompletion;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Speed extends STEMCraftPlugin {
-    private static Speed instance;
-
     @Override
     public void onEnable() {
         super.onEnable();
 
-        instance = this;
-        registerTabCompletion("speedtype", "fly", "walk");
-        registerTabCompletion("speed", "1", "1.5", "1.75", "2");
+        SCTabCompletion.register("speedtype", "fly", "walk");
+        SCTabCompletion.register("speed", "1", "1.5", "1.75", "2");
 
-        registerCommand(new com.stemcraft.commands.Speed(instance));
+        List<String[]> tabCompletions = new ArrayList<>();
+        tabCompletions.add(new String[]{"{speedtype}", "{speed}", "{player}"});
+        tabCompletions.add(new String[]{"{speed}", "{player}"});
+        tabCompletions.add(new String[]{"reset", "{player}"});
+
+        registerEvents(new PlayerWorldChangeListener());
+
+        registerCommand(new com.stemcraft.command.Speed(), "speed", null, tabCompletions);
     }
 
-    public Speed getInstance() {
-        return instance;
-    }
-
-    public void setPlayerSpeed(Player player, float speed, boolean flying) {
+    public static void setPlayerSpeed(Player player, float speed, boolean flying) {
         if (flying) {
             player.setFlySpeed(getRealSpeed(speed, true));
         } else {
@@ -30,16 +34,16 @@ public class Speed extends STEMCraftPlugin {
         }
     }
 
-    public void resetPlayerSpeed(Player player) {
+    public static void resetPlayerSpeed(Player player) {
         player.setFlySpeed(getDefaultSpeed(true));
         player.setWalkSpeed(getDefaultSpeed(false));
     }
 
-    private float getDefaultSpeed(final boolean isFly) {
+    private static float getDefaultSpeed(final boolean isFly) {
         return isFly ? 0.1f : 0.2f;
     }
 
-    private float getRealSpeed(final float speed, final boolean isFly) {
+    private static float getRealSpeed(final float speed, final boolean isFly) {
         final float defaultSpeed = getDefaultSpeed(isFly);
         float maxSpeed = 1f;
 
